@@ -356,7 +356,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://api.odcloud.kr/api/15052837/v1/uddi:5bfc7a27-a1f8-4d86-a211-a7a02c0739d7?page=10&perPage=100&serviceKey=CDKWiYrOyT0XapzcNW1DIE3exiXZz7XIpAIrrsOC%2FrkFLM1niU7Ukkn0Hg8Cfe%2FlepOAe%2FjJeHlTHSroOSOgYg%3D%3D",
+					"raw": "https://api.odcloud.kr/api/15052837/v1/uddi:5bfc7a27-a1f8-4d86-a211-a7a02c0739d7?page=14&perPage=100&serviceKey=CDKWiYrOyT0XapzcNW1DIE3exiXZz7XIpAIrrsOC%2FrkFLM1niU7Ukkn0Hg8Cfe%2FlepOAe%2FjJeHlTHSroOSOgYg%3D%3D",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -372,7 +372,7 @@
 					"query": [
 						{
 							"key": "page",
-							"value": "10"
+							"value": "14"
 						},
 						{
 							"key": "perPage",
@@ -381,6 +381,46 @@
 						{
 							"key": "serviceKey",
 							"value": "CDKWiYrOyT0XapzcNW1DIE3exiXZz7XIpAIrrsOC%2FrkFLM1niU7Ukkn0Hg8Cfe%2FlepOAe%2FjJeHlTHSroOSOgYg%3D%3D"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "위도, 경도 전환 API",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-NCP-APIGW-API-KEY-ID",
+						"value": "mxphjh1u0c",
+						"type": "text"
+					},
+					{
+						"key": "X-NCP-APIGW-API-KEY",
+						"value": "WlXAlmMvaB1CJzc7qSkuzO67RAGD5TtXrMycpTrb",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=전라남도 완도군 완도읍 장보고대로 282-1",
+					"protocol": "https",
+					"host": [
+						"naveropenapi",
+						"apigw",
+						"ntruss",
+						"com"
+					],
+					"path": [
+						"map-geocode",
+						"v2",
+						"geocode"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "전라남도 완도군 완도읍 장보고대로 282-1"
 						}
 					]
 				}
