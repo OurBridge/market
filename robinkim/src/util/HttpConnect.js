@@ -1,11 +1,11 @@
 import axios from "axios";
 
 // const defaultUrl = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL_DEV
-const defaultUrl = "http://localhost:3010/";
+const defaultUrl = "http://localhost:3000/";
 
 export const URL = {
-  base: "base",
-  board: "board",
+  store: "store",
+  naver: "naver",
   company: "company",
   erp_setting: "erp_setting",
   etc: "etc",
