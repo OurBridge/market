@@ -33,3 +33,15 @@ export const getMapData = async (query) => {
         throw new Error('네이버 검색 데이터를 가져오는 도중에 오류가 발생하였습니다.');
     }
 }
+
+// comment 데이터
+export const getCommentData = async (query) => {
+    try {
+        const res = await axios.get(`${HOME_PATH}/api/comment?market=${query}`);
+        return res.data;
+    } catch (error) {
+        console.error(error.message);
+        throw new Error('네이버 검색 데이터를 가져오는 도중에 오류가 발생하였습니다.');
+    }
+
+}

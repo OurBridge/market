@@ -3,7 +3,7 @@ import { HOME_PATH } from "@/src/config/config_home";
 import NaverMap from "@/src/components/NaverMap";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { getMapData, getStoreData, naverSearchData } from "@/src/util/requestList";
+import { getCommentData, getMapData, getStoreData, naverSearchData } from "@/src/util/requestList";
 
 export default function MapPage({ data }) {
   // console.log(data)
@@ -85,10 +85,13 @@ export default function MapPage({ data }) {
 
         // naver 블로그 API
         const res = await naverSearchData(name);
-        // 시장 정보
-        const store = await getStoreData(name);
 
-        setClickedData({ ...item, ['네이버 블로그']: res?.data?.items, ['시장점포']: store });
+        // 시장 정보
+        // const store = await getStoreData(name);
+
+        // 댓글 정보
+        const comment = await getCommentData(name);
+        setClickedData({ ...item, ['네이버 블로그']: res?.data?.items, comment: comment });
       });
     };
 
@@ -190,7 +193,6 @@ export default function MapPage({ data }) {
           ))}
         </div>
 
-
         <div>
           <div>
             <p>{clickedData?.["시장정보"]}</p>
@@ -202,11 +204,26 @@ export default function MapPage({ data }) {
             <p>{clickedData?.["취급품목"]}</p>
             <p>{clickedData?.["홈페이지주소"]}</p>
           </div>
-          <div>
-          {clickedData?.["네이버 블로그"]?.map((blog, idx) => (
-            <p dangerouslySetInnerHTML={{__html: blog?.title}}/>
-          ))}
-          </div>
+          {clickedData?.["네이버 블로그"] && (
+            <div className="m-3 border">
+              <p>네이버 블로그</p>
+              {clickedData?.["네이버 블로그"]?.map((blog, idx) => (
+                <a className="block my-1" key={idx} href={blog?.link} target="_blank" dangerouslySetInnerHTML={{ __html: blog?.title }} />
+              ))}
+            </div>
+          )}
+          {clickedData?.comment && (
+            <div className="m-3 border">
+              <p>댓글</p>
+              {clickedData?.comment?.map((com, idx) => (
+                <div key={idx}>
+                  <p>{com.comment}</p>
+                  <img src={com.img_url}/>
+                </div>
+              ))}
+            </div>
+          )}
+
         </div>
 
 
