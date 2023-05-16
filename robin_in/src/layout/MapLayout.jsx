@@ -1,17 +1,23 @@
-import {
-  generateMarkerHtml,
-  generateClickedMarkerHtml,
-} from "../utils/requestHtml";
-import { geo } from "../json/geo";
 import React, { useEffect, useRef, useState } from "react";
-// import { Helmet } from "react-helmet";
+import Navbar from "../organisms/Navbar";
+import GeoCode from "../organisms/GeoCode";
+import NaverMap from "../organisms/NaverMap";
+import { Link, Outlet } from "react-router-dom";
+import { geo } from "../json/geo";
+import {
+  generateClickedMarkerHtml,
+  generateMarkerHtml,
+} from "../utils/requestHtml";
+import { geoCode } from "../json/geoCode";
+import { HOME_PATH } from "../config/config_home";
 
-const NaverMap = () => {
+const MapLayout = () => {
+  const [mapInit, setMapInit] = useState(null);
   const mapElement = useRef(null);
   let selectedMarker = null; // 선택한 마커 상태를 저장하는 변수
 
   const { naver } = window;
-  
+
   // 마커 이동
   const moveToMarket = (item, map) => {
     const geo = item["지리정보"];
@@ -78,10 +84,10 @@ const NaverMap = () => {
       },
     };
     const map = new naver.maps.Map(mapElement.current, mapOptions);
+    setMapInit(map);
 
     // 커스텀 컨트롤
-    const locationBtnHtml =
-      '<button type="button"><span>현재 위치 아이콘</span></button>';
+    const locationBtnHtml = `<button type="button" class="bg-white p-1.5 border border-black"><img class="h-5" src="${HOME_PATH}/img/compass.png"/></button>`;
     naver.maps.Event.once(map, "init", function () {
       //customControl 객체 이용하기
       var customControl = new naver.maps.CustomControl(locationBtnHtml, {
@@ -117,11 +123,38 @@ const NaverMap = () => {
       markerClickEvent(marker, item, map);
     });
   }, []);
+
   return (
-    <>
-      <div className="w-full h-screen" ref={mapElement}></div>
-    </>
+    <div classNameName="min-h-full">
+      <Navbar />
+      <div className="border-prigray-300 border-b">
+        <div className="mx-28 p-3">
+          {geoCode?.map((geo, idx) => {
+            return (
+              <Link
+                key={idx}
+                to={{ pathname: `/map/${geo.code}` }}
+                onClick={() => {
+                  moveToMarket(geo, mapInit);
+                }}
+              >
+                <span
+                  className="m-2 border border-prigray-600 rounded-full
+               px-2.5 py-1 text-prigray-600 shadow-md"
+                >
+                  {geo.name}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+      <div className="bg-prigray-100 w-full">
+        <Outlet />
+        <div className="w-full h-screen" ref={mapElement}></div>
+      </div>
+    </div>
   );
 };
 
-export default NaverMap;
+export default MapLayout;

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Map = () => {
+const Geo = () => {
   return (
     <>
       {/* sidebar */}
@@ -18,6 +18,9 @@ const Map = () => {
               placeholder="Search"
               required=""
             />
+            <div>
+                GEO
+            </div>
           </div>
         </div>
       </div>
@@ -25,4 +28,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default Geo;
