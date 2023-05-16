@@ -15,6 +15,97 @@ export default function MapPage({ data }) {
   const mapElement = useRef(null);
   const CLIENT_ID = process.env.NAVER_CLOUD_CLIENT_ID;
 
+  let selectedMarker = null; // 선택한 마커 상태를 저장하는 변수
+
+  const getMarkerData = async (item, name) => {
+    // naver 블로그 API
+    const res = await naverSearchData(name);
+
+    // 시장 정보
+    // const store = await getStoreData(name);
+
+    // 댓글 정보
+    const comment = await getCommentData(name);
+
+    setClickedData({ ...item, ['네이버 블로그']: res?.data?.items, comment: comment });
+
+  }
+
+  const moveToMarket = (item, map) => {
+    const geo = item["지리정보"];
+    const mapLatLng = new naver.maps.LatLng(
+      Number(geo.latitude),
+      Number(geo.longitude)
+    );
+
+    map.panTo(mapLatLng);
+  }
+
+  // 마커 클릭 이벤트 핸들러 함수
+  const markerClickEvent = (marker, item, map) => {
+    naver.maps.Event.addListener(marker, "click", async () => {
+      const name = item["시장정보"];
+      map.setZoom(16);
+
+      moveToMarket(item, map)
+
+      // 선택한 마커가 이미 선택되어 있는 경우 클릭 해제 처리
+      if (selectedMarker === marker) {
+        marker.setIcon({
+          content: `<div class="marker_img">
+            <img src="${HOME_PATH}/img/circle.png" />
+            <span>${name}</span>
+          </div>`,
+          size: new naver.maps.Size(10, 10),
+        });
+
+        selectedMarker = null; // 선택한 마커 상태 초기화
+      } else {
+        // 선택한 마커가 없거나 다른 마커를 선택한 경우
+        if (selectedMarker) {
+          selectedMarker.setIcon({
+            content: `<div class="marker_img">
+              <img src="${HOME_PATH}/img/circle.png" />
+              <span>${selectedMarker.name}</span>
+            </div>`,
+            size: new naver.maps.Size(10, 10),
+          });
+        }
+
+        marker.setIcon({
+          content: `<div class="marker_img">
+            <img src="${HOME_PATH}/img/clicked.png" />
+            <span>${name}</span>
+          </div>`,
+          size: new naver.maps.Size(10, 10),
+        });
+
+        selectedMarker = marker; // 선택한 마커 설정
+      }
+
+
+      marker.name = name; // 선택한 마커의 이름을 설정합니다.
+
+      getMarkerData(item, name)
+
+    });
+  };
+
+  const handleMapClick = () => {
+    // 지도 클릭 시 선택한 마커 클릭 해제 처리
+    if (selectedMarker) {
+      selectedMarker.setIcon({
+        content: `<div class="marker_img">
+          <img src="${HOME_PATH}/img/circle.png" />
+          <span>${selectedMarker.name}</span>
+        </div>`,
+        size: new naver.maps.Size(10, 10),
+      });
+
+      selectedMarker = null; // 선택한 마커 상태 초기화
+    }
+  };
+
 
   useEffect(() => {
     const { naver } = window;
@@ -23,10 +114,12 @@ export default function MapPage({ data }) {
     const mapOptions = {
       center: new naver.maps.LatLng(35.1600320, 126.8513380),
       zoom: 16,
-      zoomControl: false,
+      zoomControl: true,
       mapTypeControl: true,
+      mapDataControl: false,
       zoomControlOptions: {
         position: naver.maps.Position.TOP_RIGHT,
+        style: naver.maps.ZoomControlStyle.SMALL,
       },
     };
 
@@ -34,81 +127,23 @@ export default function MapPage({ data }) {
     const map = new naver.maps.Map(mapElement.current, mapOptions);
     setMapInit(map)
 
-    let selectedMarker = null; // 선택한 마커 상태를 저장하는 변수
 
-    // 마커 클릭 이벤트 핸들러 함수
-    const markerClickEvent = (marker, item, name) => {
-      naver.maps.Event.addListener(marker, "click", async () => {
-        const geo = item["지리정보"];
-        const mapLatLng = new naver.maps.LatLng(
-          Number(geo.latitude),
-          Number(geo.longitude)
-        );
-
-        // 선택한 마커가 이미 선택되어 있는 경우 클릭 해제 처리
-        if (selectedMarker === marker) {
-          marker.setIcon({
-            content: `<div class="marker_img">
-              <img src="${HOME_PATH}/img/circle.png" />
-              <span>${name}</span>
-            </div>`,
-            size: new naver.maps.Size(10, 10),
-          });
-
-          selectedMarker = null; // 선택한 마커 상태 초기화
-        } else {
-          // 선택한 마커가 없거나 다른 마커를 선택한 경우
-          if (selectedMarker) {
-            selectedMarker.setIcon({
-              content: `<div class="marker_img">
-                <img src="${HOME_PATH}/img/circle.png" />
-                <span>${selectedMarker.name}</span>
-              </div>`,
-              size: new naver.maps.Size(10, 10),
-            });
-          }
-
-          marker.setIcon({
-            content: `<div class="marker_img">
-              <img src="${HOME_PATH}/img/clicked.png" />
-              <span>${name}</span>
-            </div>`,
-            size: new naver.maps.Size(10, 10),
-          });
-
-          selectedMarker = marker; // 선택한 마커 설정
-        }
-
-        map.panTo(mapLatLng);
-
-        marker.name = name; // 선택한 마커의 이름을 설정합니다.
-
-        // naver 블로그 API
-        const res = await naverSearchData(name);
-
-        // 시장 정보
-        // const store = await getStoreData(name);
-
-        // 댓글 정보
-        const comment = await getCommentData(name);
-        setClickedData({ ...item, ['네이버 블로그']: res?.data?.items, comment: comment });
+    // 커스텀 컨트롤
+    const locationBtnHtml = '<button type="button"><span>현재 위치 아이콘</span></button>';
+    naver.maps.Event.once(map, 'init', function () {
+      //customControl 객체 이용하기
+      var customControl = new naver.maps.CustomControl(locationBtnHtml, {
+        position: naver.maps.Position.TOP_RIGHT
       });
-    };
 
-    const handleMapClick = () => {
-      // 지도 클릭 시 선택한 마커 클릭 해제 처리
-      if (selectedMarker) {
-        selectedMarker.setIcon({
-          content: `<div class="marker_img">
-            <img src="${HOME_PATH}/img/circle.png" />
-            <span>${selectedMarker.name}</span>
-          </div>`,
-          size: new naver.maps.Size(10, 10),
-        });
+      customControl.setMap(map);
 
-        selectedMarker = null; // 선택한 마커 상태 초기화
-      }
-    };
+      naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function () {
+        map.setCenter(new naver.maps.LatLng(37.3595953, 127.1053971));
+      });
+    });
+
+
 
     naver.maps.Event.addListener(map, "click", handleMapClick);
 
@@ -116,6 +151,7 @@ export default function MapPage({ data }) {
     data?.data?.forEach((item) => {
       const geo = item["지리정보"];
       const name = item["시장정보"];
+
       const marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(geo.latitude, geo.longitude),
         map: map,
@@ -128,7 +164,7 @@ export default function MapPage({ data }) {
         },
       });
 
-      markerClickEvent(marker, item, name);
+      markerClickEvent(marker, item, map);
     });
   }, []);
 
@@ -218,7 +254,7 @@ export default function MapPage({ data }) {
               {clickedData?.comment?.map((com, idx) => (
                 <div key={idx}>
                   <p>{com.comment}</p>
-                  <img src={com.img_url}/>
+                  <img src={com.img_url} />
                 </div>
               ))}
             </div>
@@ -228,13 +264,17 @@ export default function MapPage({ data }) {
 
 
         <div>
-          {clickedData?.market?.map((item, idx) => (
-            <p key={idx}>{item?.['시장정보']}</p>
-          ))}
+          {clickedData?.market?.map((item, idx) => {
+            return (
+              <p className="cursor-pointer my-2" onClick={() => {
+                moveToMarket(item, mapInit)
+              }} key={idx}>{item?.['시장정보']}</p>
+            )
+          })}
         </div>
 
       </div>
-      <NaverMap mapElement={mapElement} />
+      <div id="map" ref={mapElement} />
     </>
   );
 }
