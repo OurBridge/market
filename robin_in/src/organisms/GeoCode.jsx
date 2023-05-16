@@ -1,0 +1,22 @@
+import React from "react";
+import { geoCode } from "../json/geoCode";
+
+const GeoCode = () => {
+  return (
+    <div className="border-prigray-300 border-b">
+      <div className="mx-28 p-3">
+        {geoCode?.map((geo, idx) => (
+          <span
+            key={idx}
+            className="m-2 border border-prigray-600 rounded-full
+               px-2.5 py-1 text-prigray-600 shadow-md"
+          >
+            {geo.name}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default GeoCode;

@@ -37,18 +37,18 @@
   padding: 20px;
   box-sizing: border-box;
   z-index: 999;
-  }
+}
 
-  .geo_info {
-    display: flex;
-    flex-wrap: wrap;
-  }
+.geo_info {
+  display: flex;
+  flex-wrap: wrap;
+}
 
-  .geo_info span {
-    font-size: small;
-    border: 1px solid gray;
-    padding: 2px 5px;
-    border-radius: 15px;
-    margin: 5px 2px;
-    cursor: pointer;
-  }
+.geo_info span {
+  font-size: small;
+  border: 1px solid gray;
+  padding: 2px 5px;
+  border-radius: 15px;
+  margin: 5px 2px;
+  cursor: pointer;
+}

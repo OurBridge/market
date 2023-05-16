@@ -39,18 +39,18 @@ export default function MapPage({ data }) {
 
     // 커스텀 컨트롤
     const locationBtnHtml = '<button type="button"><span>현재 위치 아이콘</span></button>';
-    naver.maps.Event.once(map, 'init', function() {
+    naver.maps.Event.once(map, 'init', function () {
       //customControl 객체 이용하기
       var customControl = new naver.maps.CustomControl(locationBtnHtml, {
-          position: naver.maps.Position.TOP_RIGHT
+        position: naver.maps.Position.TOP_RIGHT
       });
-  
+
       customControl.setMap(map);
-  
-      naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
-          map.setCenter(new naver.maps.LatLng(37.3595953, 127.1053971));
+
+      naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function () {
+        map.setCenter(new naver.maps.LatLng(37.3595953, 127.1053971));
       });
-  });
+    });
 
     let selectedMarker = null; // 선택한 마커 상태를 저장하는 변수
 
