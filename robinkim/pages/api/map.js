@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 async function get(req, res) {
-  const { city } = req.query;
+  const { city, code } = req.query;
   
   const filePath = path.join(process.cwd(), "public/json", "geo.json");
   const fileData = fs.readFileSync(filePath);
@@ -11,6 +11,7 @@ async function get(req, res) {
   if(city) {
     data = data.filter(item => item['시도군'] ===  city)
   }
+
 
   res.status(200).json(data);
 }

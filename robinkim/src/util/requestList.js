@@ -33,7 +33,6 @@ export const getMapData = async (query) => {
         throw new Error('네이버 검색 데이터를 가져오는 도중에 오류가 발생하였습니다.');
     }
 }
-
 // comment 데이터
 export const getCommentData = async (query) => {
     try {
@@ -45,3 +44,23 @@ export const getCommentData = async (query) => {
     }
 
 }
+
+// 마커 html
+export function generateMarkerHtml(name) {
+    return `
+        <div class="marker_img">
+          <img src="${HOME_PATH}/img/circle.png" />
+          <span>${name}</span>
+        </div>
+      `;
+  }
+
+  // 마커 클릭 html
+export function generateClickedMarkerHtml(name) {
+    return `
+        <div class="marker_img">
+          <img src="${HOME_PATH}/img/clicked.png" />
+          <span>${name}</span>
+        </div>
+      `;
+  }
