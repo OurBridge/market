@@ -1,6 +1,23 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+import { HOME_PATH } from "../config/config_home";
 
-const Geo = () => {
+const Geo = ({ mapInit }) => {
+  const location = useLocation();
+  const data = location.state.data;
+  const { naver } = window;
+
+  // 마커 이동
+  const moveToMarket = (item, map) => {
+    const geo = item["지리정보"];
+    const mapLatLng = new naver.maps.LatLng(
+      Number(geo.latitude),
+      Number(geo.longitude)
+    );
+
+    map.panTo(mapLatLng);
+  };
+
   return (
     <>
       {/* sidebar */}
@@ -19,7 +36,37 @@ const Geo = () => {
               required=""
             />
             <div>
-                GEO
+              {data?.map((item) => (
+                <div
+                  key={item.uid}
+                  className="border border-prigray-200 rounded-lg p-3 my-4 cursor-pointer"
+                  onClick={() => {
+                    moveToMarket(item, mapInit);
+                  }}
+                >
+                  <div className="flex">
+                    <div className="mr-2 w-1/3">
+                      <img
+                        className="w-full h-full bg-cover rounded-lg"
+                        src={`${HOME_PATH}/img/test_img.jpg`}
+                      />
+                    </div>
+
+                    {/* right */}
+                    <div className="w-2/3">
+                      <p>{item["시도군"]}</p>
+                      <p>{item["시장정보"]}</p>
+                      <div className="text-sm">
+                        <p>{item["도로명 주소"]}</p>
+                        <p>{item["시장유형"]}</p>
+                        <p>{item["시장개설주기"]}</p>
+                        <p>{item["취급품목"]}</p>
+                      </div>
+                      <p></p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

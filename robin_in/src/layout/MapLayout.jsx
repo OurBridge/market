@@ -11,8 +11,7 @@ import {
 import { geoCode } from "../json/geoCode";
 import { HOME_PATH } from "../config/config_home";
 
-const MapLayout = () => {
-  const [mapInit, setMapInit] = useState(null);
+const MapLayout = ({ mapInit, saveMapInit }) => {
   const mapElement = useRef(null);
   let selectedMarker = null; // 선택한 마커 상태를 저장하는 변수
 
@@ -84,7 +83,7 @@ const MapLayout = () => {
       },
     };
     const map = new naver.maps.Map(mapElement.current, mapOptions);
-    setMapInit(map);
+    saveMapInit(map);
 
     // 커스텀 컨트롤
     const locationBtnHtml = `<button type="button" class="bg-white p-1.5 border border-black"><img class="h-5" src="${HOME_PATH}/img/compass.png"/></button>`;
@@ -129,20 +128,22 @@ const MapLayout = () => {
       <Navbar />
       <div className="border-prigray-300 border-b">
         <div className="mx-28 p-3">
-          {geoCode?.map((geo, idx) => {
+          {geoCode?.map((item, idx) => {
+            const data = geo.filter((i) => i["시도군"] === item.name);
             return (
               <Link
                 key={idx}
-                to={{ pathname: `/map/${geo.code}` }}
+                to={`/map/${item.code}`}
+                state={{ data: data }}
                 onClick={() => {
-                  moveToMarket(geo, mapInit);
+                  moveToMarket(item, mapInit);
                 }}
               >
                 <span
                   className="m-2 border border-prigray-600 rounded-full
                px-2.5 py-1 text-prigray-600 shadow-md"
                 >
-                  {geo.name}
+                  {item.name}
                 </span>
               </Link>
             );
