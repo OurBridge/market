@@ -119,7 +119,7 @@ const NaverMap = () => {
   }, []);
   return (
     <>
-      <div className="w-full h-screen" ref={mapElement}></div>
+      <div className="w-full h-full" ref={mapElement}></div>
     </>
   );
 };

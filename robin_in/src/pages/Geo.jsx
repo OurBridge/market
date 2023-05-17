@@ -20,7 +20,7 @@ const Geo = ({ mapInit }) => {
 
   return (
     <>
-      <div className="w-1/4 h-screen absolute z-50 bg-white">
+      <div className="w-1/4 h-full absolute z-50 bg-white">
         <div className="h-full border border-gray-200 shadow-md box-border overflow-y-auto">
           <div className="p-4">
             <input
@@ -61,9 +61,24 @@ const Geo = ({ mapInit }) => {
                         {item["시장정보"]}
                       </p>
                       <div className="text-sm">
-                        <p>{item["도로명 주소"]}</p>
-                        <p>{item["시장유형"]}</p>
-                        <p>{item["시장개설주기"]}</p>
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-prigray-100 flex justify-center items-center mr-1 rounded-full">
+                            <img
+                              className="w-4 h-4"
+                              src={`${HOME_PATH}/img/location_48.png`}
+                            />
+                          </div>
+                          <span>{item["도로명 주소"]}</span>
+                        </div>
+                        <div className="flex items-center">
+                            <div className="w-6 h-6 bg-prigray-100 flex justify-center items-center mr-1 rounded-full">
+                                <img
+                                className="w-4 h-4"
+                                src={`${HOME_PATH}/img/schedule_48.png`}
+                                />
+                            </div>
+                            <span>{item["시장유형"]} - {item["시장개설주기"]}</span>
+                        </div>
                         {/* <p>{item["취급품목"]}</p> */}
                       </div>
                     </div>

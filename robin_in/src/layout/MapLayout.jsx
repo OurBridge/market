@@ -11,6 +11,7 @@ import {
 } from "../utils/requestHtml";
 import { geoCode } from "../json/geoCode";
 import { HOME_PATH } from "../config/config_home";
+import { naverSearchData } from "../utils/requestList";
 
 const MapLayout = ({ mapInit, saveMapInit }) => {
   const mapElement = useRef(null);
@@ -25,7 +26,7 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
           (position) => {
             const { latitude, longitude } = position.coords;
             const res = { latitude, longitude };
-            setMyLocation(res);
+            setMyLocation({ ...res });
             resolve(res);
           },
           (error) => {
@@ -50,7 +51,7 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
 
   // 마커 이동
   const moveToMarket = (item, map) => {
-    const geo = item["지리정보"];
+    const geo = item?.["지리정보"];
     const mapLatLng = new naver.maps.LatLng(
       Number(geo.latitude),
       Number(geo.longitude)
@@ -65,6 +66,7 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
       const name = item["시장정보"];
       // map.setZoom(16);
 
+      // (1) 이동 이벤트
       moveToMarket(item, map);
 
       // 말풍선 추가
@@ -91,6 +93,7 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
           });
         }
 
+        // (2) 마커 변경
         marker.setIcon({
           content: generateClickedMarkerHtml(name),
           size: new naver.maps.Size(10, 10),
@@ -101,10 +104,13 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
 
       marker.name = name; // 선택한 마커의 이름을 설정합니다.
 
-      // map 이동하기
-      navigate(`/map/market/${uid}`, {state : { data : item }});
+      // (3) 마커 데이터 가져오기
+      const markerData = await naverSearchData(name);
 
-      // getMarkerData(item, name);
+      // (4) url 이동
+      navigate(`/map/market/${uid}`, {
+        state: { data: item, markerData: markerData },
+      });
     });
   };
 
@@ -224,10 +230,10 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
   }, []);
 
   return (
-    <div className="min-h-full">
+    <div className="h-full">
       <Navbar />
       <div className="border-prigray-300 border-b">
-        <div className="mx-28 p-3">
+        <div className="mx-28 p-3 flex items-center justify-center">
           {geoCode?.map((item, idx) => {
             const data = geo.filter((i) => i["시도군"] === item.name);
             return (
@@ -250,9 +256,9 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
           })}
         </div>
       </div>
-      <div className="bg-prigray-100 w-full">
+      <div className="bg-prigray-100 w-full h-screen">
         <Outlet />
-        <div className="w-full h-screen" ref={mapElement}></div>
+        <div className="w-full  h-screen" ref={mapElement}></div>
       </div>
     </div>
   );

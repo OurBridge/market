@@ -4,7 +4,7 @@ const Map = () => {
   return (
     <>
       {/* sidebar */}
-      <div className="w-1/4 h-screen absolute z-50 bg-white">
+      <div className="w-1/4 h-full absolute z-50 bg-white">
         <div className="h-full border border-gray-200 shadow-md box-border">
           <div className="p-4">
             <input

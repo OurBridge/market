@@ -15,7 +15,7 @@ const Navbar = () => {
             <Link to="/" className="flex items-center mr-10">
               <img
                 src={`${HOME_PATH}/img/market.png`}
-                className="mr-3 h-6 sm:h-8"
+                className="mr-1 h-6 sm:h-8"
                 alt="Flowbite Logo"
               />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-tblack">
