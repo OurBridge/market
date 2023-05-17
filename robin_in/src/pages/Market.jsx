@@ -33,7 +33,7 @@ const Market = ({ mapInit }) => {
                     <p>{data["취급품목"]}</p>
                   </div>
 
-                  <div className="border border-prigray-200 mt-2 p-1">
+                  <div className="border border-prigray-200 mt-2 p-2 rounded-lg">
                     <p>
                       서울의 대표적인 전통 시장인 남대문시장은 600여 년의 역사를
                       자랑하는 장소입니다. 그 중심에는 현대적인 쇼핑몰과 골목
@@ -43,9 +43,11 @@ const Market = ({ mapInit }) => {
                     </p>
                   </div>
                 </div>
-
               </div>
             </div>
+
+            {/* 네이버 블로그 */}
+            <div></div>
           </div>
         </div>
       </div>

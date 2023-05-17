@@ -1,11 +1,12 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { HOME_PATH } from "../config/config_home";
 
 const Geo = ({ mapInit }) => {
   const location = useLocation();
-  const data = location.state?.data; 
+  const data = location.state?.data;
   const { naver } = window;
+  const navigate = useNavigate();
 
   const moveToMarket = (item, map) => {
     const geo = item["지리정보"];
@@ -40,6 +41,8 @@ const Geo = ({ mapInit }) => {
                   className="border border-prigray-200 rounded-lg p-3 my-4 cursor-pointer"
                   onClick={() => {
                     moveToMarket(item, mapInit);
+                    const uid = item.uid;
+                    navigate(`/map/market/${uid}`, { state: { data: item } });
                   }}
                 >
                   <div className="flex">
@@ -51,8 +54,12 @@ const Geo = ({ mapInit }) => {
                       />
                     </div>
                     <div className="w-2/3">
-                      <p className="text-prigray-400 text-sm">{item["시도군"]}</p>
-                      <p className="font-semibold text-lg">{item["시장정보"]}</p>
+                      <p className="text-prigray-400 text-sm">
+                        {item["시도군"]}
+                      </p>
+                      <p className="font-semibold text-lg">
+                        {item["시장정보"]}
+                      </p>
                       <div className="text-sm">
                         <p>{item["도로명 주소"]}</p>
                         <p>{item["시장유형"]}</p>

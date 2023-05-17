@@ -14,7 +14,7 @@ const Navbar = () => {
             {/* 로고 */}
             <Link to="/" className="flex items-center mr-10">
               <img
-                src={`${HOME_PATH}/img/market_icon.png`}
+                src={`${HOME_PATH}/img/market.png`}
                 className="mr-3 h-6 sm:h-8"
                 alt="Flowbite Logo"
               />

@@ -61,6 +61,7 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
   // 마커 클릭 이벤트 핸들러 함수
   const markerClickEvent = (marker, infowindow, item, map) => {
     naver.maps.Event.addListener(marker, "click", async () => {
+      const uid = item.uid;
       const name = item["시장정보"];
       // map.setZoom(16);
 
@@ -101,9 +102,9 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
       marker.name = name; // 선택한 마커의 이름을 설정합니다.
 
       // map 이동하기
-      navigate("/map/market/1", {state : { data : item }});
+      navigate(`/map/market/${uid}`, {state : { data : item }});
 
-      //   getMarkerData(item, name);
+      // getMarkerData(item, name);
     });
   };
 
