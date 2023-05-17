@@ -2,18 +2,49 @@ import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../organisms/Navbar";
 import GeoCode from "../organisms/GeoCode";
 import NaverMap from "../organisms/NaverMap";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { geo } from "../json/geo";
 import {
   generateClickedMarkerHtml,
   generateMarkerHtml,
+  generateMyPositionMarkerHtml,
 } from "../utils/requestHtml";
 import { geoCode } from "../json/geoCode";
 import { HOME_PATH } from "../config/config_home";
 
 const MapLayout = ({ mapInit, saveMapInit }) => {
   const mapElement = useRef(null);
+  const navigate = useNavigate();
+  const [myLocation, setMyLocation] = useState({});
   let selectedMarker = null; // 선택한 마커 상태를 저장하는 변수
+
+  const getMyPosition = () => {
+    if (navigator.geolocation) {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const res = { latitude, longitude };
+            setMyLocation(res);
+            resolve(res);
+          },
+          (error) => {
+            console.error(error);
+            const defaultLocation = {
+              latitude: 37.4979517,
+              longitude: 127.0276188,
+            };
+            setMyLocation(defaultLocation);
+            reject(defaultLocation);
+          }
+        );
+      });
+    }
+
+    const defaultLocation = { latitude: 37.4979517, longitude: 127.0276188 };
+    setMyLocation(defaultLocation);
+    return Promise.reject(defaultLocation);
+  };
 
   const { naver } = window;
 
@@ -28,12 +59,19 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
     map.panTo(mapLatLng);
   };
   // 마커 클릭 이벤트 핸들러 함수
-  const markerClickEvent = (marker, item, map) => {
+  const markerClickEvent = (marker, infowindow, item, map) => {
     naver.maps.Event.addListener(marker, "click", async () => {
       const name = item["시장정보"];
       // map.setZoom(16);
 
       moveToMarket(item, map);
+
+      // 말풍선 추가
+      // if (infowindow.getMap()) {
+      //   infowindow.close();
+      // } else {
+      //   infowindow.open(map, marker);
+      // }
 
       // 선택한 마커가 이미 선택되어 있는 경우 클릭 해제 처리
       if (selectedMarker === marker) {
@@ -62,69 +100,130 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
 
       marker.name = name; // 선택한 마커의 이름을 설정합니다.
 
+      // map 이동하기
+      navigate("/map/market/1", {state : { data : item }});
+
       //   getMarkerData(item, name);
     });
   };
 
   useEffect(() => {
-    if (!mapElement.current || !naver) return;
+    const initializeMap = async () => {
+      if (!mapElement.current || !naver) return;
 
-    // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
-    const location = new naver.maps.LatLng(37.5656, 126.9769);
-    const mapOptions = {
-      center: location,
-      zoom: 17,
-      zoomControl: true,
-      mapTypeControl: true,
-      mapDataControl: false,
-      zoomControlOptions: {
-        position: naver.maps.Position.TOP_RIGHT,
-        style: naver.maps.ZoomControlStyle.SMALL,
-      },
-    };
-    const map = new naver.maps.Map(mapElement.current, mapOptions);
-    saveMapInit(map);
+      // Get current position
+      let myPosition;
+      try {
+        myPosition = await getMyPosition();
+      } catch (error) {
+        console.error(error);
+        myPosition = { latitude: 37.5656, longitude: 126.9769 };
+      }
 
-    // 커스텀 컨트롤
-    const locationBtnHtml = `<button type="button" class="bg-white p-1.5 border border-black"><img class="h-5" src="${HOME_PATH}/img/compass.png"/></button>`;
-    naver.maps.Event.once(map, "init", function () {
-      //customControl 객체 이용하기
-      var customControl = new naver.maps.CustomControl(locationBtnHtml, {
-        position: naver.maps.Position.TOP_RIGHT,
-      });
-
-      customControl.setMap(map);
-
-      // 현재 위치 가져오기
-      naver.maps.Event.addDOMListener(
-        customControl.getElement(),
-        "click",
-        function () {
-          map.setCenter(new naver.maps.LatLng(37.3595953, 127.1053971));
-        }
+      const location = new naver.maps.LatLng(
+        myPosition.latitude,
+        myPosition.longitude
       );
-    });
 
-    // 마커 표시하기
-    geo?.forEach((item) => {
-      const geo = item["지리정보"];
-      const name = item["시장정보"];
-
-      const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(geo.latitude, geo.longitude),
-        map: map,
-        icon: {
-          content: generateMarkerHtml(name),
-          size: new naver.maps.Size(10, 10),
+      const mapOptions = {
+        center: location,
+        zoom: 17,
+        zoomControl: true,
+        mapTypeControl: true,
+        mapDataControl: false,
+        zoomControlOptions: {
+          position: naver.maps.Position.TOP_RIGHT,
+          style: naver.maps.ZoomControlStyle.SMALL,
         },
+      };
+
+      const map = new naver.maps.Map(mapElement.current, mapOptions);
+      saveMapInit(map);
+
+      // Custom control
+      const locationBtnHtml = `<button type="button" class="bg-white p-1.5 border border-black"><img class="h-5" src="${HOME_PATH}/img/compass.png"/></button>`;
+      naver.maps.Event.once(map, "init", function () {
+        const customControl = new naver.maps.CustomControl(locationBtnHtml, {
+          position: naver.maps.Position.TOP_RIGHT,
+        });
+
+        customControl.setMap(map);
+
+        // Get current location
+        naver.maps.Event.addDOMListener(
+          customControl.getElement(),
+          "click",
+          function () {
+            map.panTo(
+              new naver.maps.LatLng(myLocation.latitude, myLocation.longitude)
+            );
+          }
+        );
+      });
+      // Display markers
+      geo?.forEach((item) => {
+        const geo = item["지리정보"];
+        const name = item["시장정보"];
+        const address = item["도로명 주소"];
+
+        const marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(geo.latitude, geo.longitude),
+          map: map,
+          icon: {
+            content: generateMarkerHtml(name),
+            size: new naver.maps.Size(10, 10),
+          },
+        });
+
+        const contentString = `
+        <div class="p-2">
+        <p class="font-semibold">${name}</p>
+        <p class="text-sm">${address}</p>
+      </div>`;
+
+        const infowindow = new naver.maps.InfoWindow({
+          content: contentString,
+          disableAnchor: true,
+          anchorSkew: false,
+          borderColor: "#0074FF",
+          maxWidth: 200,
+          backgroundColor: "#FFF",
+          zIndex: 99,
+          pixelOffset: new naver.maps.Point(20, -10),
+          // anchorSize: new naver.maps.Size(30, 30),
+        });
+
+        markerClickEvent(marker, infowindow, item, map);
+
+        naver.maps.Event.addListener(marker, "mouseover", () => {
+          // 말풍선 추가
+          if (infowindow.getMap()) {
+            infowindow.close();
+          } else {
+            infowindow.open(map, marker);
+          }
+        });
       });
 
-      markerClickEvent(marker, item, map);
-    });
+      // My Position Marker
+      // const myPositionMarket = new naver.maps.Marker({
+      //   position: new naver.maps.LatLng(
+      //     myPosition.latitude,
+      //     myPosition.longitude
+      //   ),
+      //   map: map,
+      //   icon: {
+      //     content: generateMyPositionMarkerHtml(),
+      //     size: new naver.maps.Size(10, 10),
+      //   },
+      // });
+    };
+
+    initializeMap();
   }, []);
 
   return (
-    <div classNameName="min-h-full">
+    <div className="min-h-full">
       <Navbar />
       <div className="border-prigray-300 border-b">
         <div className="mx-28 p-3">

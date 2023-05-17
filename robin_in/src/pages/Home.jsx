@@ -3,7 +3,7 @@ import Navbar from "../organisms/Navbar";
 
 const Home = () => {
   return (
-    <div classNameName="min-h-full">
+    <div className="min-h-full">
         <Navbar/>
     </div>
   );
