@@ -11,3 +11,9 @@ export const { persistAtom } = recoilPersist({
   key: "market_storage",
   storage: sessionStorage,
 });
+
+export const marketInfo = atom({
+  key: "market_Info",
+  default: {},
+  effects_UNSTABLE: [persistAtom], // 세션 스토리지 저장
+});
