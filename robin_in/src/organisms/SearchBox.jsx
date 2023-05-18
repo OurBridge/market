@@ -7,9 +7,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const SearchBox = ({ mapInit }) => {
   const { naver } = window;
-  const { value, handleChange } = useInput("");
+  const { value, handleChange, handleKeyDown } = useInput("");
+
   const [searchResults, setSearchResults] = useState([]);
-  const [showResults, setShowResults] = useState(false);
+  const [selectedResult, setSelectedResult] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,7 +20,7 @@ const SearchBox = ({ mapInit }) => {
     };
 
     setSearchResults([]);
-    setShowResults(false);
+    setSelectedResult(false);
 
     window.addEventListener("hashchange", handleClick);
 
@@ -27,7 +28,6 @@ const SearchBox = ({ mapInit }) => {
       window.removeEventListener("hashchange", handleClick);
     };
   }, [location]);
-
 
   const moveToMarket = (item, map) => {
     const geo = item["지리정보"];
@@ -39,13 +39,31 @@ const SearchBox = ({ mapInit }) => {
     map.panTo(mapLatLng);
   };
 
-  const handleSearch = throttle((name) => {
-    const filteredResults = geo.filter(
-      (item) => item["시장정보"].includes(name) || item["시도군"].includes(name)
-    );
-    setSearchResults(filteredResults);
-    setShowResults(true);
-  }, 1000);
+  useEffect(() => {
+    const handleSearch = throttle((name) => {
+      const searched = geo.filter((item) =>
+        item["시장정보"].toLowerCase().includes(name.toLowerCase())
+      );
+      setSearchResults(searched);
+    }, 300);
+
+    handleSearch(value);
+  }, [value]);
+
+  const handleEnterKey = async () => {
+    if (searchResults.length > 0) {
+      const item = searchResults[0];
+      setSelectedResult(item);
+
+      moveToMarket(item, mapInit);
+      const uid = item.uid;
+      const name = item["시장정보"];
+      const markerData = await naverSearchData(name);
+      navigate(`/map/market/${uid}`, {
+        state: { data: item, markerData: markerData },
+      });
+    }
+  };
 
   return (
     <form className="p-4 flex flex-col">
@@ -86,22 +104,24 @@ const SearchBox = ({ mapInit }) => {
           placeholder="시장이름 또는 시도군을 검색해보세요!"
           required
           value={value}
-          onChange={(e) => {
-            handleChange(e);
-            handleSearch(e.target.value);
-          }}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown(handleEnterKey)}
+          style={{ flex: "1" }}
         />
       </div>
-      {showResults && (
+      {value && (
         <div className="px-4 pt-1 border bg-white z-50 w-full">
           <ul>
             {searchResults.slice(0, 6).map((item) => {
               return (
                 <div
                   key={item.id}
-                  className="cursor-pointer"
+                  className={`cursor-pointer ${
+                    selectedResult === item ? "bg-gray-200" : ""
+                  }`}
                   onClick={async () => {
                     moveToMarket(item, mapInit);
+                    setSelectedResult(item);
                     const uid = item.uid;
                     const name = item["시장정보"];
                     const markerData = await naverSearchData(name);
