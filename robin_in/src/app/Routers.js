@@ -6,12 +6,12 @@ import Map from "../pages/Map";
 import Geo from "../pages/Geo";
 import Market from "../pages/Market";
 
-const Routers = ({ mapInit, saveMapInit }) => {
+const Routers = ({ mapInit, saveMapInit, myLocation }) => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route
-        element={<MapLayout saveMapInit={saveMapInit} mapInit={mapInit} />}
+        element={<MapLayout saveMapInit={saveMapInit} mapInit={mapInit} myLocation={myLocation} />}
       >
         <Route path="/map" element={<Map mapInit={mapInit} />} />
         <Route path="/map/:id" element={<Geo mapInit={mapInit} />} />

@@ -13,39 +13,11 @@ import { geoCode } from "../json/geoCode";
 import { HOME_PATH } from "../config/config_home";
 import { naverSearchData } from "../utils/requestList";
 
-const MapLayout = ({ mapInit, saveMapInit }) => {
+const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
+  console.log(myLocation)
   const mapElement = useRef(null);
   const navigate = useNavigate();
-  const [myLocation, setMyLocation] = useState({});
   let selectedMarker = null; // 선택한 마커 상태를 저장하는 변수
-
-  const getMyPosition = () => {
-    if (navigator.geolocation) {
-      return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            const res = { latitude, longitude };
-            setMyLocation({ ...res });
-            resolve(res);
-          },
-          (error) => {
-            console.error(error);
-            const defaultLocation = {
-              latitude: 37.4979517,
-              longitude: 127.0276188,
-            };
-            setMyLocation(defaultLocation);
-            reject(defaultLocation);
-          }
-        );
-      });
-    }
-
-    const defaultLocation = { latitude: 37.4979517, longitude: 127.0276188 };
-    setMyLocation(defaultLocation);
-    return Promise.reject(defaultLocation);
-  };
 
   const { naver } = window;
 
@@ -118,18 +90,9 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
     const initializeMap = async () => {
       if (!mapElement.current || !naver) return;
 
-      // Get current position
-      let myPosition;
-      try {
-        myPosition = await getMyPosition();
-      } catch (error) {
-        console.error(error);
-        myPosition = { latitude: 37.5656, longitude: 126.9769 };
-      }
-
       const location = new naver.maps.LatLng(
-        myPosition.latitude,
-        myPosition.longitude
+        myLocation?.latitude,
+        myLocation?.longitude
       );
 
       const mapOptions = {
@@ -162,7 +125,7 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
           "click",
           function () {
             map.panTo(
-              new naver.maps.LatLng(myLocation.latitude, myLocation.longitude)
+              new naver.maps.LatLng(myLocation?.latitude, myLocation?.longitude)
             );
           }
         );
@@ -227,7 +190,7 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
     };
 
     initializeMap();
-  }, []);
+  }, [myLocation]);
 
   return (
     <div className="h-full">
