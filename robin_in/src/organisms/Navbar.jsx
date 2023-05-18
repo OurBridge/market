@@ -12,16 +12,16 @@ const Navbar = () => {
         <div className="flex items-center justify-between ">
           <div className="flex flex-wrap max-w-screen-xl items-center">
             {/* 로고 */}
-            <Link to="/" className="flex items-center mr-10">
+            <a href="/" className="flex items-center mr-10">
               <img
                 src={`${HOME_PATH}/img/market.png`}
                 className="mr-1 h-6 sm:h-8"
-                alt="Flowbite Logo"
+                alt="Logo"
               />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-tblack">
-                ourmarket
+                시장투어
               </span>
-            </Link>
+            </a>
 
             {/* 메뉴 */}
             <div
@@ -38,12 +38,12 @@ const Navbar = () => {
                   </a>
                 </li>
                 <li>
-                  <Link
-                    to="/map"
+                  <a
+                    href="/map"
                     className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-500 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                   >
                     지도
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>

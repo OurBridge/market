@@ -13,7 +13,7 @@ const Routers = ({ mapInit, saveMapInit }) => {
       <Route
         element={<MapLayout saveMapInit={saveMapInit} mapInit={mapInit} />}
       >
-        <Route path="/map" element={<Map />} />
+        <Route path="/map" element={<Map mapInit={mapInit} />} />
         <Route path="/map/:id" element={<Geo mapInit={mapInit} />} />
         <Route path="/map/market/:id" element={<Market mapInit={mapInit} />} />
       </Route>

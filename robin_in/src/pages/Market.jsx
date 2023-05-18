@@ -1,13 +1,12 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { HOME_PATH } from "../config/config_home";
 
 const Market = ({ mapInit }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const data = location.state?.data;
   const markerData = location.state?.markerData?.items;
-
-  console.log(markerData);
 
   const { naver } = window;
 
@@ -18,7 +17,15 @@ const Market = ({ mapInit }) => {
           <div className="">
             {/* 시장 정보 */}
             <div className="border border-prigray-200 m-4 rounded-lg bg-white">
-              <div className="">
+              <div className="relative">
+                <button className="absolute top-4 left-4" type="button" onClick={() => navigate(-1)}>
+                  <img
+                    className="w-5 h-5"
+                    src={`${HOME_PATH}/img/back_white_50.png`}
+                    alt="Back"
+                  />
+                </button>
+
                 <img
                   className="rounded-tr-lg rounded-tl-lg"
                   src={`${HOME_PATH}/img/test_img.jpg`}
@@ -59,11 +66,10 @@ const Market = ({ mapInit }) => {
               </div>
 
               {markerData?.splice(0, 6)?.map((dt, idx) => {
-                console.log(dt)
-                const text = String(dt.description).slice(0, 35) + '...'
+                const text = String(dt.description).slice(0, 35) + "...";
                 return (
-                    <div key={idx} className="border-t my-3 border-prigray-200">
-                      <a href={dt.link} target="_blank">
+                  <div key={idx} className="border-t my-3 border-prigray-200">
+                    <a href={dt.link} target="_blank">
                       <div className="my-3">
                         <div className="flex items-center">
                           <div className="w-6 h-6 bg-prigray-100 shadow-md flex justify-center items-center mr-1 rounded-full">
@@ -74,13 +80,16 @@ const Market = ({ mapInit }) => {
                           </div>
                           <p className="">{dt.bloggername}</p>
                         </div>
-    
-                        <p className="text-lg text-primary-500 font-semibold" dangerouslySetInnerHTML={{__html: dt.title}}/>
-                        <p dangerouslySetInnerHTML={{__html: text}}/>
+
+                        <p
+                          className="text-lg text-primary-500 font-semibold"
+                          dangerouslySetInnerHTML={{ __html: dt.title }}
+                        />
+                        <p dangerouslySetInnerHTML={{ __html: text }} />
                       </div>
-                      </a>
-                    </div>
-                  )
+                    </a>
+                  </div>
+                );
               })}
             </div>
           </div>
