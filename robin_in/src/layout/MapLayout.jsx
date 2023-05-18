@@ -14,7 +14,6 @@ import { HOME_PATH } from "../config/config_home";
 import { naverSearchData } from "../utils/requestList";
 
 const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
-  console.log(myLocation)
   const mapElement = useRef(null);
   const navigate = useNavigate();
   let selectedMarker = null; // 선택한 마커 상태를 저장하는 변수
@@ -111,7 +110,9 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
       saveMapInit(map);
 
       // Custom control
-      const locationBtnHtml = `<button type="button" class="bg-white p-1.5 border border-black"><img class="h-5" src="${HOME_PATH}/img/compass.png"/></button>`;
+      const locationBtnHtml = `<button type="button" class="bg-white p-1.5 border border-black">
+        <img class="h-5" src="${HOME_PATH}/img/compass.png"/>
+      </button>`;
       naver.maps.Event.once(map, "init", function () {
         const customControl = new naver.maps.CustomControl(locationBtnHtml, {
           position: naver.maps.Position.TOP_RIGHT,
