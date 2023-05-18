@@ -12,6 +12,7 @@ import {
 import { geoCode } from "../json/geoCode";
 import { HOME_PATH } from "../config/config_home";
 import { naverSearchData } from "../utils/requestList";
+import { MarkerClustering } from "../MarkerClustering";
 
 const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
   const mapElement = useRef(null);
@@ -131,6 +132,7 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
           }
         );
       });
+      let markers = [];
       // Display markers
       geo?.forEach((item) => {
         const geo = item["지리정보"];
@@ -145,6 +147,8 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
             size: new naver.maps.Size(10, 10),
           },
         });
+
+        markers.push(marker);
 
         const contentString = `
         <div class="p-2">
@@ -174,6 +178,28 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
             infowindow.open(map, marker);
           }
         });
+      });
+
+      const clustererOptions = {
+        maxZoom: 13,
+        gridSize: 120, // 클러스터 크기
+        minClusterSize: 2, // 최소 마커 개수
+        disableClickZoom: false, // 클릭 시 줌 동작 여부
+        indexGenerator: [10, 100, 200, 500, 1000],
+        stylingFunction: (clusterMarker, clusterCount) => {
+          const content = `<div class="cluster-marker-content"><img src="${HOME_PATH}/img/myposition.png"/></div>`;
+          clusterMarker.setIcon({
+            content: content,
+            size: new naver.maps.Size(50, 50),
+            anchor: new naver.maps.Point(25, 25), // Adjust the anchor point if needed
+          });
+        },
+      };
+
+      const clusterer = new MarkerClustering({
+        map: map,
+        markers: markers,
+        ...clustererOptions,
       });
 
       // My Position Marker
