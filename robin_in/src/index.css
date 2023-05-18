@@ -8,7 +8,6 @@
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
-
 /* Scroll bar */
 /* 스크롤바의 너비 */
 ::-webkit-scrollbar {
@@ -24,7 +23,7 @@
 
 /* 스크롤바 색상 */
 ::-webkit-scrollbar-thumb {
-    background-color: #0074FF;
+    background-color: #9E9E9E;
     border-radius: 999px;
     /* 스크롤바의 둥근 테두리 반지름 */
 }

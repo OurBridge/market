@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HOME_PATH } from "../config/config_home";
 
 const Navbar = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
-
+  
   return (
-    <header className={`border-prigray-300 border-b h-7/100`}>
+    <header
+      className={`border-prigray-300 border-b h-7/100`}
+    >
       <nav className={`py-4 dark:bg-gray-800 mx-28 h-full`}>
         <div className="flex items-center justify-between ">
           <div className="flex flex-wrap max-w-screen-xl items-center">
@@ -31,7 +33,7 @@ const Navbar = () => {
               <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                 <li>
                   <a
-                    href="#"
+                    href="/curation"
                     className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-500 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                   >
                     큐레이션

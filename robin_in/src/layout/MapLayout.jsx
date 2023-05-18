@@ -182,12 +182,17 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
 
       const clustererOptions = {
         maxZoom: 13,
-        gridSize: 120, // 클러스터 크기
-        minClusterSize: 2, // 최소 마커 개수
+        gridSize: 100, // 클러스터 크기
+        minClusterSize: 3, // 최소 마커 개수
         disableClickZoom: false, // 클릭 시 줌 동작 여부
-        indexGenerator: [10, 100, 200, 500, 1000],
+        indexGenerator: [],
         stylingFunction: (clusterMarker, clusterCount) => {
-          const content = `<div class="cluster-marker-content"><img src="${HOME_PATH}/img/myposition.png"/></div>`;
+          const content = `<div class="relative">
+          <img
+            src="${HOME_PATH}/img/myposition.png"
+          />
+          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">${clusterCount}</div>
+        </div>`;
           clusterMarker.setIcon({
             content: content,
             size: new naver.maps.Size(50, 50),
