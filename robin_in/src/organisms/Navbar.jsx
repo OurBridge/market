@@ -7,8 +7,8 @@ const Navbar = () => {
   const path = location.pathname.split("/")[1];
 
   return (
-    <header className={`border-prigray-300 border-b`}>
-      <nav className={`py-4 dark:bg-gray-800 mx-28`}>
+    <header className={`border-prigray-300 border-b h-7/100`}>
+      <nav className={`py-4 dark:bg-gray-800 mx-28 h-full`}>
         <div className="flex items-center justify-between ">
           <div className="flex flex-wrap max-w-screen-xl items-center">
             {/* 로고 */}

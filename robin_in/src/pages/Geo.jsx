@@ -20,7 +20,7 @@ const Geo = ({ mapInit }) => {
 
   return (
     <>
-      <div className="w-1/4 h-full absolute z-50 bg-white">
+      <div className="w-1/4 h-87/100 absolute z-50 bg-white">
         <div className="h-full border border-gray-200 shadow-md box-border overflow-y-auto">
           <div className="p-4">
             <input

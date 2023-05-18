@@ -232,7 +232,7 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
   return (
     <div className="h-full">
       <Navbar />
-      <div className="border-prigray-300 border-b">
+      <div className="border-prigray-300 border-b h-6/100">
         <div className="mx-28 p-3 flex items-center justify-center">
           {geoCode?.map((item, idx) => {
             const data = geo.filter((i) => i["시도군"] === item.name);
@@ -256,9 +256,9 @@ const MapLayout = ({ mapInit, saveMapInit }) => {
           })}
         </div>
       </div>
-      <div className="bg-prigray-100 w-full h-screen">
+      <div className="bg-prigray-100 w-full h-87/100">
         <Outlet />
-        <div className="w-full  h-screen" ref={mapElement}></div>
+        <div className="w-full h-full" ref={mapElement}></div>
       </div>
     </div>
   );

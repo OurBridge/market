@@ -13,7 +13,7 @@ const Market = ({ mapInit }) => {
 
   return (
     <>
-      <div className="w-1/4 h-full absolute z-50 bg-prigray-100">
+      <div className="w-1/4 h-87/100 absolute z-50 bg-prigray-100">
         <div className="h-full border border-gray-200 shadow-md box-border overflow-y-auto">
           <div className="">
             {/* 시장 정보 */}
