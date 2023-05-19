@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HOME_PATH } from "../config/config_home";
 
 const Navbar = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
-  
+
   return (
     <header
-      className={`border-prigray-300 border-b h-7/100`}
+      className={`border-prigray-300 border-b h-7/100 ${
+        path !== "map" && "fixed left-0 top-0 w-full z-50 bg-white"
+      } `}
     >
       <nav className={`py-4 dark:bg-gray-800 mx-28 h-full`}>
         <div className="flex items-center justify-between ">

@@ -4,9 +4,9 @@ import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
   return (
-    <div className="h-full overflow-hidden">
+    <div>
       <Navbar />
-      <div className="overflow-y-auto h-full ">
+      <div>
         <Outlet />
       </div>
     </div>

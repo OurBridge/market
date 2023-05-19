@@ -225,7 +225,7 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
   }, [myLocation]);
 
   return (
-    <div className="h-full">
+    <div className="h-screen overflow-hidden">
       <Navbar />
       <div className="border-prigray-300 border-b h-6/100">
         <div className="mx-28 p-3 flex items-center justify-center">
