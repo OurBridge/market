@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import Routers from "./Routers";
 import { useEffect, useState } from "react";
+import ScrollToTop from "../utils/ScrollToTop";
 
 function App() {
   const [mapInit, setMapInit] = useState(null);
@@ -55,6 +56,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routers
         mapInit={mapInit}
         saveMapInit={saveMapInit}

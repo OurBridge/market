@@ -13,6 +13,9 @@ import { geoCode } from "../json/geoCode";
 import { HOME_PATH } from "../config/config_home";
 import { naverSearchData } from "../utils/requestList";
 import { MarkerClustering } from "../MarkerClustering";
+import SwiperCore, { Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+SwiperCore.use([Navigation]);
 
 const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
   const mapElement = useRef(null);
@@ -224,33 +227,77 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
     initializeMap();
   }, [myLocation]);
 
+  function chunkArray(array, size) {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  }
+
   return (
     <div className="h-screen overflow-hidden">
       <Navbar />
-      <div className="border-prigray-300 border-b h-6/100">
-        <div className="mx-28 p-3 flex items-center justify-center">
-          {geoCode?.map((item, idx) => {
-            const data = geo.filter((i) => i["시도군"] === item.name);
-            return (
-              <Link
-                key={idx}
-                to={`/map/${item.code}`}
-                state={{ data: data }}
-                onClick={() => {
-                  moveToMarket(item, mapInit);
-                }}
-              >
-                <span
-                  className="m-2 border border-prigray-600 rounded-full
-               px-2.5 py-1 text-prigray-600 shadow-md"
-                >
-                  {item.name}
-                </span>
-              </Link>
-            );
-          })}
+      <div className="border-prigray-300 border-b h-6/100 web-only">
+        <div className="md:mx-28 md:p-3.5 flex flex-col md:flex-row items-center justify-center flex-wrap">
+          {chunkArray(geoCode, 5).map((group, groupIdx) => (
+            <div key={groupIdx} className="flex">
+              {group.map((item, itemIdx) => {
+                const data = geo.filter((i) => i["시도군"] === item.name);
+                return (
+                  <Link
+                    key={itemIdx}
+                    to={`/map/${item.code}`}
+                    state={{ data: data }}
+                    onClick={() => {
+                      moveToMarket(item, mapInit);
+                    }}
+                  >
+                    <span className="md:m-2 m-1 border border-prigray-600 rounded-full px-2.5 py-1 text-prigray-600 shadow-md">
+                      {item.name}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </div>
       </div>
+
+      <div className="border-prigray-300 border-b h-7/100 mobile-only">
+        <div className="mt-4 h-full">
+          <Swiper
+            spaceBetween={10}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            className="flex items-center justify-center flex-nowrap h-full"
+          >
+            {chunkArray(geoCode, 4).map((group, groupIdx) => (
+              <SwiperSlide key={groupIdx} className="flex items-center justify-center h-full">
+                {group.map((item, itemIdx) => {
+                  const data = geo.filter((i) => i["시도군"] === item.name);
+                  return (
+                    <Link
+                      key={itemIdx}
+                      to={`/map/${item.code}`}
+                      state={{ data: data }}
+                      onClick={() => {
+                        moveToMarket(item, mapInit);
+                      }}
+                    >
+                      <span className="mx-1 border border-prigray-600 rounded-full px-2.5 py-1 text-prigray-600 shadow-md">
+                        {item.name}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </div>
+
       <div className="bg-prigray-100 w-full h-87/100">
         <Outlet />
         <div className="w-full h-full" ref={mapElement}></div>

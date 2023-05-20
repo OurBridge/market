@@ -6,7 +6,9 @@ import Map from "../pages/Map";
 import Geo from "../pages/Geo";
 import Market from "../pages/Market";
 import MainLayout from "../layout/MainLayout";
+import Yangdong from "../pages/Yangdong";
 import Curation from "../pages/Curation";
+import Basic from "../pages/Basic";
 
 const Routers = ({ mapInit, saveMapInit, myLocation }) => {
   return (
@@ -14,6 +16,7 @@ const Routers = ({ mapInit, saveMapInit, myLocation }) => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/curation" element={<Curation />} />
+        <Route path="/curation/yangdong" element={<Yangdong />} />
       </Route>
       <Route
         element={<MapLayout saveMapInit={saveMapInit} mapInit={mapInit} myLocation={myLocation} />}
