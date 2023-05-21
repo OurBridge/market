@@ -36,16 +36,47 @@ Get started
       <div className="w-full mb-20">
         <div className="mx-auto sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl">
           <div className="border-b border-prigray-300 mt-10">
-            <p className="text-2xl font-semibold mb-3">큐레이션</p>
+            <p className="text-2xl font-semibold mb-3 ml-3">큐레이션</p>
           </div>
-          {/* 큐레이션 아이템 01 */}
-          <Link to="/curation/yangdong">
-            <div className="mt-8">
+          <div className="mx-5">
+            {/* 큐레이션 아이템 01 */}
+            <Link to="/curation">
+              <div className="mt-8">
+                <div
+                  className="relative overflow-hidden bg-no-repeat bg-cover"
+                  style={{
+                    backgroundPosition: "50%",
+                    backgroundImage: "url('/img/market/양동시장.jpg')",
+                    height: "300px",
+                  }}
+                >
+                  <div
+                    className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
+                    style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
+                  >
+                    <div className="flex justify-center items-center h-full">
+                      <div className="text-center text-white px-6 md:px-12">
+                        <div className="title_a">
+                          <p className="text-3xl md:text-4xl font-bold tracking-tight mb-2.5">
+                            광주
+                          </p>
+                          <p className="text-5xl md:text-6xl font-bold tracking-tight">
+                            양동시장
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            {/* 큐레이션 아이템 02 */}
+            <div className="mt-10">
               <div
                 className="relative overflow-hidden bg-no-repeat bg-cover"
                 style={{
                   backgroundPosition: "50%",
-                  backgroundImage: "url('/img/market/양동시장.jpg')",
+                  backgroundImage: "url('/img/market/말바우시장.jfif')",
                   height: "300px",
                 }}
               >
@@ -55,34 +86,15 @@ Get started
                 >
                   <div className="flex justify-center items-center h-full">
                     <div className="text-center text-white px-6 md:px-12">
-                      <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-12">
-                        광주 양동시장
-                      </h1>
+                      <div className="title_b">
+                        <p className="text-3xl md:text-4xl font-bold tracking-tight mb-2.5">
+                          광주
+                        </p>
+                        <p className="text-5xl md:text-6xl font-bold tracking-tight">
+                          말바우시장
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Link>
-          {/* 큐레이션 아이템 02 */}
-          <div className="mt-10">
-            <div
-              className="relative overflow-hidden bg-no-repeat bg-cover"
-              style={{
-                backgroundPosition: "50%",
-                backgroundImage: "url('/img/market/말바우시장.jfif')",
-                height: "300px",
-              }}
-            >
-              <div
-                className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
-                style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
-              >
-                <div className="flex justify-center items-center h-full">
-                  <div className="text-center text-white px-6 md:px-12">
-                    <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-12">
-                      광주 말바우시장
-                    </h1>
                   </div>
                 </div>
               </div>

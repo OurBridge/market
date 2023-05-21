@@ -15,8 +15,8 @@ const Routers = ({ mapInit, saveMapInit, myLocation }) => {
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/curation" element={<Curation />} />
-        <Route path="/curation/yangdong" element={<Yangdong />} />
+        {/* <Route path="/curation" element={<Curation />} /> */}
+        <Route path="/curation" element={<Yangdong />} />
       </Route>
       <Route
         element={<MapLayout saveMapInit={saveMapInit} mapInit={mapInit} myLocation={myLocation} />}

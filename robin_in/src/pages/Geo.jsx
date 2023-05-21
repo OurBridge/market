@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HOME_PATH } from "../config/config_home";
-import { naverSearchData } from "../utils/requestList";
+import { naverSearchData, getCommentData } from "../utils/requestList";
 import SearchBox from "../organisms/SearchBox";
 
 const Geo = ({ mapInit }) => {
@@ -36,8 +36,9 @@ const Geo = ({ mapInit }) => {
                     const uid = item.uid;
                     const name = item["시장정보"];
                     const markerData = await naverSearchData(name);
+                    const commentData = await getCommentData(name);
                     navigate(`/map/market/${uid}`, {
-                      state: { data: item, markerData: markerData },
+                      state: { data: item, markerData: markerData, commentData: commentData },
                     });
                   }}
                 >

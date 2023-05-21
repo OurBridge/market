@@ -11,7 +11,7 @@ import {
 } from "../utils/requestHtml";
 import { geoCode } from "../json/geoCode";
 import { HOME_PATH } from "../config/config_home";
-import { naverSearchData } from "../utils/requestList";
+import { getCommentData, naverSearchData } from "../utils/requestList";
 import { MarkerClustering } from "../MarkerClustering";
 import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -81,10 +81,11 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
 
       // (3) 마커 데이터 가져오기
       const markerData = await naverSearchData(name);
+      const commentData = await getCommentData(name);
 
       // (4) url 이동
       navigate(`/map/market/${uid}`, {
-        state: { data: item, markerData: markerData },
+        state: { data: item, markerData: markerData, commentData: commentData },
       });
     });
   };
@@ -102,7 +103,7 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
         center: location,
         zoom: 17,
         zoomControl: true,
-        mapTypeControl: true,
+        mapTypeControl: false,
         mapDataControl: false,
         zoomControlOptions: {
           position: naver.maps.Position.TOP_RIGHT,
@@ -110,13 +111,18 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
         },
       };
 
+      var zoomControl = new naver.maps.ZoomControl();
+      console.log(zoomControl)
+
       const map = new naver.maps.Map(mapElement.current, mapOptions);
       saveMapInit(map);
 
       // Custom control
-      const locationBtnHtml = `<button type="button" class="bg-white p-1.5 border border-black">
+      const locationBtnHtml = `<div id="custom-control">
+      <button type="button" class="bg-white p-1.5 border border-black">
         <img class="h-5" src="${HOME_PATH}/img/compass.png"/>
-      </button>`;
+      </button>
+      </div>`;
       naver.maps.Event.once(map, "init", function () {
         const customControl = new naver.maps.CustomControl(locationBtnHtml, {
           position: naver.maps.Position.TOP_RIGHT,
@@ -135,8 +141,9 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation }) => {
           }
         );
       });
-      let markers = [];
+      
       // Display markers
+      let markers = [];
       geo?.forEach((item) => {
         const geo = item["지리정보"];
         const name = item["시장정보"];

@@ -7,6 +7,7 @@ const Market = ({ mapInit }) => {
   const navigate = useNavigate();
   const data = location.state?.data;
   const markerData = location.state?.markerData?.items;
+  const commentData = location.state?.commentData;
 
   const { naver } = window;
 
@@ -18,7 +19,11 @@ const Market = ({ mapInit }) => {
             {/* 시장 정보 */}
             <div className="border border-prigray-200 m-4 rounded-lg bg-white">
               <div className="relative">
-                <button className="absolute top-4 left-4" type="button" onClick={() => navigate(-1)}>
+                <button
+                  className="absolute top-4 left-4"
+                  type="button"
+                  onClick={() => navigate(-1)}
+                >
                   <img
                     className="w-5 h-5"
                     src={`${HOME_PATH}/img/back_white_50.png`}
@@ -91,6 +96,37 @@ const Market = ({ mapInit }) => {
                   </div>
                 );
               })}
+            </div>
+
+            <div className="border border-prigray-200 m-4 rounded-lg bg-white px-6 py-4">
+              <div>
+                <span className="font-semibold text-tblack text-xl">댓글</span>
+              </div>
+              {commentData?.map((ct) => (
+                <div
+                  key={ct.uid}
+                  className="border-t mt-2 py-3 rounded-lg border-prigray-200"
+                >
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 bg-prigray-100 shadow-md flex justify-center items-center mr-1 rounded-full">
+                      <img
+                        className="w-4 h-4"
+                        src={`${HOME_PATH}/img/user_30.png`}
+                      />
+                    </div>
+                    <p>{ct.id}</p>
+                  </div>
+                  <div>
+                    <p>{ct.comment}</p>
+                    <p className="text-prigray-400 text-sm">{ct["등록일자"]}</p>
+                  </div>
+                </div>
+              ))}
+              {commentData.length === 0 && (
+                <div className="my-3">
+                  <p>등록된 댓글이 없습니다.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

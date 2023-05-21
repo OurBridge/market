@@ -32,7 +32,7 @@ const Yangdong = () => {
         >
           <div className="flex justify-center items-center h-full">
             <div className="text-center text-white px-6 md:px-12">
-              <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-5">
+              <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-5 title_a">
                 광주 양동시장
               </h1>
               <p className="text-2xl">100년 역사, 이야기 가득한 먹거리 시장</p>
@@ -43,9 +43,9 @@ const Yangdong = () => {
 
       {/* 시장 소개 */}
       <div ref={introRef} className="py-36 mx-4 sm:mx-24">
-        <div className="md:mx-96 m-0 flex flex-col md:flex-row">
+        <div className="md:mx-80 m-0 flex flex-col md:flex-row">
           <div className="w-1/2">
-            <p className="text-4xl font-semibold mb-2">양동시장</p>
+            <p className="text-4xl font-bold mb-2 title_a">양동시장</p>
             <p>
               100년 역사,
               <br />
@@ -79,8 +79,8 @@ const Yangdong = () => {
             </p>
           </div>
         </div>
-        <div className="md:w-2/3 w-18/20 mx-auto flex flex-col md:flex-row justify-between mt-16 h-full">
-          <div style={{ height: "240px" }} className="relative">
+        <div className="md:w-3/4 w-18/20 mx-auto flex flex-col md:flex-row justify-between mt-16 h-full">
+          <div style={{ height: "240px" }} className="relative md:mx-4 rounded-lg">
             <img
               className="rounded-lg"
               src={`${HOME_PATH}/img/market/old_양동시장_1.jpg`}
@@ -91,7 +91,7 @@ const Yangdong = () => {
               <p className="text-white text-xl font-bold">Data 1</p>
             </div>
           </div>
-          <div style={{ height: "240px" }} className="relative">
+          <div style={{ height: "240px" }} className="relative md:mx-4 rounded-lg">
             <img
               className="rounded-lg"
               src={`${HOME_PATH}/img/market/old_양동시장_2.jpg`}
@@ -102,7 +102,7 @@ const Yangdong = () => {
               <p className="text-white text-xl font-bold">Data 2</p>
             </div>
           </div>
-          <div style={{ height: "240px" }} className="relative">
+          <div style={{ height: "240px" }} className="relative md:mx-4 rounded-lg">
             <img
               className="rounded-lg"
               src={`${HOME_PATH}/img/market/old_양동시장_3.jpg`}

@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { HOME_PATH } from "../config/config_home";
 
 const Navbar = () => {
   const location = useLocation();
+  const [view, setView] = useState(false);
   const path = location.pathname.split("/")[1];
+
+  const handleViewNavBar = () => {
+    setView(view => !view);
+  }
 
   return (
     <header
@@ -20,7 +25,7 @@ const Navbar = () => {
               className="h-8 mr-3"
               alt="Logo"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white title_a">
               시장275
             </span>
           </a>
@@ -30,6 +35,7 @@ const Navbar = () => {
             className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-default"
             aria-expanded="false"
+            onClick={handleViewNavBar}
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -46,7 +52,7 @@ const Navbar = () => {
               ></path>
             </svg>
           </button>
-          <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+          <div className={`${view ? "": "hidden"} w-full md:block md:w-auto`}>
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
                 <a
