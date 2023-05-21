@@ -42,10 +42,10 @@ const Yangdong = () => {
       </div>
 
       {/* 시장 소개 */}
-      <div ref={introRef} className="py-36 mx-4 sm:mx-24">
+      <div ref={introRef} className="py-20 md:py-36 mx-4 sm:mx-24">
         <div className="md:mx-80 m-0 flex flex-col md:flex-row">
-          <div className="w-1/2">
-            <p className="text-4xl font-bold mb-2 title_a">양동시장</p>
+          <div className="w-full md:w-1/2 flex md:flex-col flex-row mb-3">
+            <p className="text-4xl font-bold mb-2 md:mr-0 mr-4 title_a">양동시장</p>
             <p>
               100년 역사,
               <br />
