@@ -22,7 +22,7 @@ const Geo = ({ mapInit }) => {
 
   return (
     <>
-      <div className="w-1/4 h-87/100 absolute z-50 bg-white">
+      <div className="md:w-1/4 w-full absolute h-87/100 bg-white the_second">
         <div className="h-full border border-gray-200 shadow-md box-border overflow-y-auto">
           <div>
             <SearchBox mapInit={mapInit} />
@@ -43,7 +43,7 @@ const Geo = ({ mapInit }) => {
                   }}
                 >
                   <div className="flex">
-                    <div className="mr-2 w-1/3">
+                    <div className="mr-2 md:w-1/3 w-1/2">
                       <img
                         className="w-full h-full bg-cover rounded-lg"
                         src={`${HOME_PATH}/img/test_img.jpg`}
@@ -51,10 +51,10 @@ const Geo = ({ mapInit }) => {
                       />
                     </div>
                     <div className="w-2/3">
-                      <p className="text-prigray-400 text-sm">
+                      <p className="text-prigray-400 md:text-sm text-xs">
                         {item["시도군"]}
                       </p>
-                      <p className="font-semibold text-lg">
+                      <p className="font-semibold md:text-lg">
                         {item["시장정보"]}
                       </p>
                       <div className="text-sm">
