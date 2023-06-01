@@ -288,8 +288,7 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation, login }) => {
                       });
                     }}
                   >
-                    <span className="md:m-2 m-1 border border-prigray-600 rounded-full px-2.5 py-1 
-                    text-prigray-600 shadow-md hover:text-white hover:bg-primary-500">
+                    <span className="md:m-2 m-1 border border-prigray-600 rounded-full px-2.5 py-1 text-prigray-600 shadow-md">
                       {item.geo_name}
                     </span>
                   </p>
@@ -328,8 +327,7 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation, login }) => {
                         });
                       }}
                     >
-                      <span className="mx-1 border border-prigray-600 rounded-full px-2.5 py-1 text-prigray-600 shadow-md 
-                      hover:bg-primary-500 hover:text-white">
+                      <span className="mx-1 border border-prigray-600 rounded-full px-2.5 py-1 text-prigray-600 shadow-md">
                         {item.geo_name}
                       </span>
                     </p>
