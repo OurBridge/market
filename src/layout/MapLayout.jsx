@@ -132,29 +132,29 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation, login }) => {
       saveMapInit(map);
 
       // Custom control
-      const locationBtnHtml = `<div id="custom-control">
-      <button type="button" class="bg-white p-1.5 border border-black">
-        <img class="h-4 w-4" src="${HOME_PATH}/img/compass.png"/>
-      </button>
-      </div>`;
-      naver.maps.Event.once(map, "init", function () {
-        const customControl = new naver.maps.CustomControl(locationBtnHtml, {
-          position: naver.maps.Position.TOP_RIGHT,
-        });
+      // const locationBtnHtml = `<div id="custom-control">
+      // <button type="button" class="bg-white p-1.5 border border-black">
+      //   <img class="h-4 w-4" src="${HOME_PATH}/img/compass.png"/>
+      // </button>
+      // </div>`;
+      // naver.maps.Event.once(map, "init", function () {
+      //   const customControl = new naver.maps.CustomControl(locationBtnHtml, {
+      //     position: naver.maps.Position.TOP_RIGHT,
+      //   });
 
-        customControl.setMap(map);
+      //   customControl.setMap(map);
 
-        // Get current location
-        naver.maps.Event.addDOMListener(
-          customControl.getElement(),
-          "click",
-          function () {
-            map.panTo(
-              new naver.maps.LatLng(myLocation?.latitude, myLocation?.longitude)
-            );
-          }
-        );
-      });
+      //   // Get current location
+      //   naver.maps.Event.addDOMListener(
+      //     customControl.getElement(),
+      //     "click",
+      //     function () {
+      //       map.panTo(
+      //         new naver.maps.LatLng(myLocation?.latitude, myLocation?.longitude)
+      //       );
+      //     }
+      //   );
+      // });
 
       // Display markers
       let markers = [];
