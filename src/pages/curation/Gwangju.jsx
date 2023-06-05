@@ -124,7 +124,7 @@ const Gwangju = () => {
                   </Link>
                 </SwiperSlide>
                 <SwiperSlide>
-                  <Link to="/curation/daein">
+                  <div>
                     <div
                       className="border border-gray-200 mx-auto w-full md:w-80 h-80 rounded-lg relative bg-no-repeat bg-cover"
                       style={{
@@ -139,11 +139,11 @@ const Gwangju = () => {
                           <p className="font-semibold text-2xl mb-2">
                             대인시장
                           </p>
-                          <p>전통 5일장의 옛 모습이 남아있는 시장</p>
+                          <p>예술과 청년이 모이는 전통 시장</p>
                         </div>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 </SwiperSlide>
                 <SwiperSlide>
                   <div to="/curation/daein">
@@ -161,7 +161,7 @@ const Gwangju = () => {
                           <p className="font-semibold text-2xl mb-2">
                             송정역시장
                           </p>
-                          <p>전통 5일장의 옛 모습이 남아있는 시장</p>
+                          <p>역사와 현대가 공존하는 시장</p>
                         </div>
                       </div>
                     </div>

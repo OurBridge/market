@@ -257,7 +257,7 @@ const Home = () => {
                     >
                       <div className="p-4 text-white">
                         <p className="font-semibold text-2xl mb-2">대인시장</p>
-                        <p>전통 5일장의 옛 모습이 남아있는 시장</p>
+                        <p>예술과 청년이 모이는 전통 시장</p>
                       </div>
                     </div>
                   </div>
@@ -279,7 +279,7 @@ const Home = () => {
                         <p className="font-semibold text-2xl mb-2">
                           송정역시장
                         </p>
-                        <p>전통 5일장의 옛 모습이 남아있는 시장</p>
+                        <p>역사와 현대가 공존하는 시장</p>
                       </div>
                     </div>
                   </div>
