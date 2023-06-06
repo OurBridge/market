@@ -244,7 +244,7 @@ const Home = () => {
                 </Link>
               </SwiperSlide>
               <SwiperSlide>
-                <Link to="/curation/daein">
+                <div>
                   <div
                     className="border border-gray-200 mx-auto w-full md:w-80 h-80 rounded-lg relative bg-no-repeat bg-cover"
                     style={{
@@ -261,7 +261,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                </Link>
+                </div>
               </SwiperSlide>
               <SwiperSlide>
                 <div to="/curation/daein">
