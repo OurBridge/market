@@ -6,9 +6,9 @@ const Market = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const data = location.state?.data;
+  console.log( data.img_lg_url)
   const img_lg_url =
-    data.img_lg_url === "" ? "basic_market.jpg" : data.img_lg_url;
-  console.log(img_lg_url);
+    data.img_lg_url === "" || undefined || null || "undefined" ? "basic_market.jpg" : data.img_lg_url;
 
   const markerData = location.state?.markerData?.items || [];
   const commentData = location.state?.commentData || [];
@@ -50,7 +50,7 @@ const Market = () => {
               <div className="px-6 py-4">
                 <p className="text-prigray-400">{data?.geo_info}</p>
                 <p className="text-tblack font-semibold text-2xl">
-                  {data?.market_name}
+                  {data?.market_name || data["시장정보"]}
                 </p>
                 <div className="mt-1 text-tblack">
                   <div className="flex items-center pb-1">
@@ -58,28 +58,28 @@ const Market = () => {
                       className="w-5 h-5 mr-1"
                       src={`${HOME_PATH}/img/icon_location.png`}
                     />
-                    <p>{data?.market_location_a}</p>
+                    <p>{data?.market_location_a || data["지번 주소"]}</p>
                   </div>
                   <div className="flex items-center py-1">
                     <img
                       className="w-5 h-5 mr-1"
                       src={`${HOME_PATH}/img/icon_type.png`}
                     />
-                    <p>{data?.market_type}</p>
+                    <p>{data?.market_type || data["시장유형"]}</p>
                   </div>
                   <div className="flex items-center py-1">
                     <img
                       className="w-5 h-5 mr-1"
                       src={`${HOME_PATH}/img/icon_period.png`}
                     />
-                    <p>{data?.market_period}</p>
+                    <p>{data?.market_period || data["시장개설주기"]}</p>
                   </div>
                   <div className="flex items-center pt-1">
                     <img
                       className="w-5 h-5 mr-1"
                       src={`${HOME_PATH}/img/icon_item.png`}
                     />
-                    <p>{data?.market_item}</p>
+                    <p>{data?.market_item || data["취급품목"]}</p>
                   </div>
                 </div>
 

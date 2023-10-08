@@ -17,6 +17,7 @@ import {
 import { MarkerClustering } from "../MarkerClustering";
 import SwiperCore, { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { geo_json } from "../json/geo";
 SwiperCore.use([Navigation]);
 
 const MapLayout = ({ mapInit, saveMapInit, myLocation, login }) => {
@@ -31,8 +32,11 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation, login }) => {
 
   // 마커 이동
   const moveToMarket = (item, map) => {
-    const latitude = item.latitude;
-    const longitude = item.longitude;
+    const latitude = item["지리정보"].latitude;
+    const longitude = item["지리정보"].longitude;
+
+    // const latitude = item.latitude;
+    // const longitude = item.longitude;
     const mapLatLng = new naver.maps.LatLng(
       Number(latitude),
       Number(longitude)
@@ -43,8 +47,8 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation, login }) => {
   // 마커 클릭 이벤트 핸들러 함수
   const markerClickEvent = (marker, infowindow, item, map) => {
     naver.maps.Event.addListener(marker, "click", async () => {
-      const uid = item.market_uid;
-      const name = item.market_name;
+      const uid = item.market_uid || item.uid;
+      const name = item.market_name || item["시장정보"];
       // map.setZoom(16);
 
       // (1) 이동 이벤트
@@ -86,8 +90,10 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation, login }) => {
       marker.name = name; // 선택한 마커의 이름을 설정합니다.
 
       // (3) 마커 데이터 가져오기
-      const markerData = await naverSearchData(name);
-      const commentData = await getCommentData(name);
+      // const markerData = await naverSearchData(name);
+      // const commentData = await getCommentData(name);
+      const markerData = [];
+      const commentData = [];
 
       // (4) url 이동
       navigate(`/map/market/${uid}`, {
@@ -160,15 +166,21 @@ const MapLayout = ({ mapInit, saveMapInit, myLocation, login }) => {
       let markers = [];
       const response = await getAllMarketData();
       let getGeo = [];
-      if (response?.result === "success") {
-        getGeo = response?.marketList;
+      if (true || response?.result === "success") {
+        // getGeo = response?.marketList;
+        getGeo = geo_json;
         setGeo(getGeo);
         // 모든 데이터 가져오기
         getGeo?.forEach((item) => {
-          const latitude = item.latitude;
-          const longitude = item.longitude;
-          const address = item.market_location_a;
-          const name = item.market_name;
+          // const latitude = item.latitude;
+          // const longitude = item.longitude;
+          // const address = item.market_location_a;
+          // const name = item.market_name;
+
+          const latitude = item["지리정보"].latitude;
+          const longitude = item["지리정보"].longitude;
+          const address = item["지번 주소"];
+          const name = item["시장정보"];
 
           const marker = new naver.maps.Marker({
             position: new naver.maps.LatLng(latitude, longitude),

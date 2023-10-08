@@ -71,7 +71,7 @@ const Geo = ({ mapInit }) => {
                           {item.geo_info}
                         </p>
                         <p className="font-semibold md:text-lg">
-                          {item.market_name}
+                          {item.market_name || item["시장정보"]}
                         </p>
                         <div className="text-sm ">
                           <div className="flex items-center">
@@ -81,7 +81,7 @@ const Geo = ({ mapInit }) => {
                                 src={`${HOME_PATH}/img/location_48.png`}
                               />
                             </div>
-                            <span>{item.market_location_a}</span>
+                            <span>{item.market_location_a || item["지번 주소"]}</span>
                           </div>
                           <div className="flex items-center">
                             <div className="w-6 h-6 bg-prigray-100 flex justify-center items-center mr-1 rounded-full">
