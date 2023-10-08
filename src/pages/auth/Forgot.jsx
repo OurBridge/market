@@ -45,7 +45,6 @@ const Forgot = () => {
           mem_id: id_,
           mem_email: email_,
         });
-        console.log(res);
         if (res.result === "success") {
           setVerifiedNum(res.numbers);
           toast.success("인증번호가 이메일로 발송되었습니다.");
@@ -101,7 +100,6 @@ const Forgot = () => {
 
     const isValidPw = validatePw(pw);
     if (isValidPw) {
-      console.log("dadasds");
       const email_ = email.trim();
       const id_ = id.trim();
       const pw_ = pw.trim();
@@ -116,7 +114,6 @@ const Forgot = () => {
         toast.success("비밀번호가 변경 되었습니다.");
         navigate("/login");
       }
-      console.log(res_);
     } else {
       toast.error("비밀번호는 영문자와 숫자를 반드시 포함해야합니다.");
     }

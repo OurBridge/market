@@ -6,7 +6,6 @@ const Market = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const data = location.state?.data;
-  console.log( data.img_lg_url)
   const img_lg_url =
     data.img_lg_url === "" || undefined || null || "undefined" ? "basic_market.jpg" : data.img_lg_url;
 

@@ -16,7 +16,6 @@ const Malbau = () => {
   };
 
   const gwangju_store = requestStoreData("말바우시장");
-  console.log(gwangju_store);
 
   return (
     <div>

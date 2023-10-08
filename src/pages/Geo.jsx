@@ -38,7 +38,6 @@ const Geo = ({ mapInit }) => {
               {data?.map((item, idx) => {
                 const img_sm_url =
                   item.img_sm_url === "" ? "basic_market_sm.jpg" : item.img_sm_url;
-                  console.log(img_sm_url)
                 return (
                   <div
                     key={idx}
